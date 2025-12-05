@@ -1,15 +1,14 @@
 package com.example.myapplication.profileScreen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
@@ -69,24 +68,22 @@ fun ProfileScreen(modifier: Modifier) {
             )
         }
 
-//        val posts = listOf(
-//            R.drawable.pf,
-//            R.drawable.pf,
-//            R.drawable.pf,
-//            R.drawable.pf
-//        )
+        Column(
+            modifier = Modifier
+            .background(Color(0xFFe5d3e5)),
+        ) {
+            val posts = listOf(
+                Post(R.drawable.pf, "Prima foto"),
+                Post(R.drawable.pf, "Tramonto"),
+                Post(R.drawable.pf, "Selfie")
+            )
 
-        val posts = listOf(
-            Post(R.drawable.pf, "Prima foto"),
-            Post(R.drawable.pf, "Tramonto"),
-            Post(R.drawable.pf, "Selfie")
-        )
+            PostGrid(posts) { post ->
 
-
-        PostGrid(posts) { post ->
-            // TODO: apri schermo dettaglio
-//            nav.navigate("postDetail/${post.id}")
+            }
         }
+
+
 
 
 

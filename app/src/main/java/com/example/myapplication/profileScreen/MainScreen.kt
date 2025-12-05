@@ -9,7 +9,8 @@ import com.example.myapplication.navigation.Screen
 
 @Composable
 fun MainScreen(nav: NavigationViewModel, modifier: Modifier) {
-    var userName by remember { mutableStateOf("") }
+    //
+    // var userName by remember { mutableStateOf("") }
 
     when(nav.currentScreen){
         Screen.FEED -> FeedScreen()

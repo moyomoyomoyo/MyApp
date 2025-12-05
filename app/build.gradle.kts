@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -59,4 +60,13 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    // Preferences DataStore (SharedPreferences like APIs)
+    implementation("androidx.datastore:datastore-preferences:1.2.0")
+    // Alternatively - without an Android dependency.
+    implementation("androidx.datastore:datastore-preferences-core:1.2.0")
+    val room_version = "2.8.4"
+    implementation("androidx.room:room-runtime:$room_version")
+    // If this project uses any Kotlin source, use Kotlin Symbol Processing (KSP)
+    // See Add the KSP plugin to your project
+    ksp("androidx.room:room-compiler:$room_version")
 }

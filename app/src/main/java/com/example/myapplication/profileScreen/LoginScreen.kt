@@ -1,10 +1,7 @@
 package com.example.myapplication.profileScreen
 
 
-
-import android.net.Uri
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
 
 @Composable
@@ -28,10 +26,10 @@ fun LoginScreen(onLoginClick: (String) -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
-        // 🔹 Immagine placeholder
+        Text("WELCOME", fontSize = 40.sp)
+        Spacer(modifier = Modifier.height(24.dp))
         Image(
-            painter = painterResource(id = R.drawable.pf), // placeholder
+            painter = painterResource(id = R.drawable.pf),
             contentDescription = "Profile Placeholder",
             modifier = Modifier
                 .size(120.dp)
@@ -40,17 +38,15 @@ fun LoginScreen(onLoginClick: (String) -> Unit) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // 🔹 Campo per il nome
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
-            label = { Text("Nome") },
+            label = { Text("username") },
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // 🔹 Pulsante Login
         Button(
             onClick = { onLoginClick(name) },
             shape = RoundedCornerShape(12.dp),
@@ -58,7 +54,7 @@ fun LoginScreen(onLoginClick: (String) -> Unit) {
                 .fillMaxWidth()
                 .height(50.dp)
         ) {
-            Text("Login")
+            Text("LOGIN")
         }
     }
 }

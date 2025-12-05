@@ -2,6 +2,7 @@ package com.example.myapplication.createPost
 
 import android.R.attr.onClick
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -27,8 +29,10 @@ fun CreatePostScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color(0xFFe5d3e5))
             .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
 
         Card(
@@ -40,9 +44,9 @@ fun CreatePostScreen() {
         ) {
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize(),
             ) {
-                    // Placeholder con icona e testo
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
@@ -61,7 +65,6 @@ fun CreatePostScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Descrizione
         OutlinedTextField(
             value = description,
             onValueChange = { description = it },
@@ -71,7 +74,6 @@ fun CreatePostScreen() {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Location (opzionale)
         OutlinedTextField(
             value = location,
             onValueChange = { location = it },
@@ -81,9 +83,8 @@ fun CreatePostScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Bottone Crea Post
         Button(
-            onClick = { /* solo UI, nessuna logica */ },
+            onClick = { },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Crea Post")

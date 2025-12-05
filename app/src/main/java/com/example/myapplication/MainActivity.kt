@@ -3,10 +3,7 @@ package com.example.myapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -14,31 +11,27 @@ import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.example.myapplication.createPost.CreatePostScreen
 import com.example.myapplication.navigation.NavigationViewModel
 import com.example.myapplication.navigation.Screen
-import com.example.myapplication.profileScreen.FeedScreen
 import com.example.myapplication.profileScreen.LoginScreen
 import com.example.myapplication.profileScreen.MainScreen
-import com.example.myapplication.profileScreen.ProfileScreen
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 data class BottomNavItem(val label: String, val selectedIcon: ImageVector, val unselectedIcon: ImageVector)
@@ -49,23 +42,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApplicationTheme {
-                var isLoggedIn by remember { mutableStateOf(false) } // stato login
-                var selectedItemIndex by remember { mutableStateOf(1) } // navbar
+                var isLoggedIn by remember { mutableStateOf(false) }
+                var selectedItemIndex by remember { mutableStateOf(1) }
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     if (!isLoggedIn) {
-                        // 🔹 Schermata di login senza navbar
                         LoginScreen { name ->
-                            // dopo login
                             isLoggedIn = true
                         }
                     } else {
-                        // 🔹 Schermate principali con navbar
                         val items = listOf(
-                            BottomNavItem("AddPhoto", Icons.Filled.AddCircle, Icons.Outlined.Add),
+                            BottomNavItem("Create", Icons.Filled.AddCircle, Icons.Outlined.Add),
                             BottomNavItem("Home", Icons.Filled.Home, Icons.Outlined.Home),
                             BottomNavItem("Profile", Icons.Filled.Person, Icons.Outlined.Person)
                         )
@@ -78,6 +68,10 @@ class MainActivity : ComponentActivity() {
                                             selected = selectedItemIndex == index,
                                             onClick = { selectedItemIndex = index },
                                             label = { Text(item.label) },
+                                            colors = NavigationBarItemDefaults.colors(
+                                                selectedIconColor = Color(0xFFba87ba),
+                                                indicatorColor = Color(0xFFe5d3e5),
+                                            ),
                                             icon = {
                                                 Icon(
                                                     imageVector = if (selectedItemIndex == index) item.selectedIcon else item.unselectedIcon,
