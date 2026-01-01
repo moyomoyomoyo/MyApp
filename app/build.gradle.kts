@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp")
+    // Chiamata di rete
+    id("kotlinx-serialization")
 }
 
 android {
@@ -59,14 +61,28 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("androidx.cardview:cardview:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    // Preferences DataStore (SharedPreferences like APIs)
-    implementation("androidx.datastore:datastore-preferences:1.2.0")
-    // Alternatively - without an Android dependency.
-    implementation("androidx.datastore:datastore-preferences-core:1.2.0")
+
+//    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.10.0") // Google Fonts
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0") // ViewModel
+    implementation("androidx.datastore:datastore-preferences:1.2.0") // DataStore delle preferenze
+    implementation("androidx.datastore:datastore:1.2.0") // DataStore
+
+    // Room
     val room_version = "2.8.4"
     implementation("androidx.room:room-runtime:$room_version")
-    // If this project uses any Kotlin source, use Kotlin Symbol Processing (KSP)
-    // See Add the KSP plugin to your project
     ksp("androidx.room:room-compiler:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+
+    // Chiamata di rete
+    implementation(platform("io.ktor:ktor-bom:3.3.2"))
+    implementation("io.ktor:ktor-client-core")
+    implementation("io.ktor:ktor-client-okhttp")
+    implementation("io.ktor:ktor-client-content-negotiation")
+    implementation("io.ktor:ktor-serialization-kotlinx-json")
+
+    // Mapbox
+    implementation("com.mapbox.maps:android-ndk27:11.17.1")
+    implementation("com.mapbox.extension:maps-compose-ndk27:11.17.1")
 }

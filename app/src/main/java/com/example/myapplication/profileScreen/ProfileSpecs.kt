@@ -44,6 +44,6 @@ private fun StatBox(number: Int, label: String) {
             text = number.toString(),
             style = MaterialTheme.typography.titleLarge
         )
-        Spacer(modifier = Modifier.padding(15.dp))
+        Spacer(modifier = Modifier.padding(10.dp))
     }
 }

@@ -1,4 +1,4 @@
-package com.example.myapplication.profileScreen
+package com.example.myapplication.post
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -29,7 +29,7 @@ fun PostDetail(post: Post) {
         Spacer(modifier = Modifier.height(12.dp))
 
         Text(
-            text = post.description,
+            text = "moyo " + post.description,
             style = MaterialTheme.typography.bodyLarge
         )
 

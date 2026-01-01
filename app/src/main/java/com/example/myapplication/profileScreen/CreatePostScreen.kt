@@ -17,15 +17,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.myapplication.navigation.Header
 
 @Composable
 fun CreatePostScreen() {
-
     var description by remember { mutableStateOf("") }
     var location by remember { mutableStateOf("") }
 
-    Spacer(modifier = Modifier.height(100.dp))
-
+//    Header(nav)
     Column(
         modifier = Modifier
             .fillMaxSize()

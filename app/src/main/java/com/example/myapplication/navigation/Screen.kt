@@ -3,5 +3,6 @@ package com.example.myapplication.navigation
 enum class Screen {
     FEED,
     PROFILE,
-    CREATE_POST
+    CREATE_POST,
+    PROFILE_SETTINGS
 }

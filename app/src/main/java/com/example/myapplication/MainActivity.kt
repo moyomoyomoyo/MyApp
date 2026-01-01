@@ -1,102 +1,57 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MaterialTheme.colorScheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
+import com.example.myapplication.data.viewmodel.AppViewModel
+import com.example.myapplication.data.viewmodel.AppViewModelFactory
+import com.example.myapplication.navigation.NavBar
 import com.example.myapplication.navigation.NavigationViewModel
 import com.example.myapplication.navigation.Screen
-import com.example.myapplication.profileScreen.LoginScreen
 import com.example.myapplication.profileScreen.MainScreen
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.example.myapplication.data.repository.SettingsRepository
 
 data class BottomNavItem(val label: String, val selectedIcon: ImageVector, val unselectedIcon: ImageVector)
+private val Context.dataStore by preferencesDataStore(name = "settings")
+
 class MainActivity : ComponentActivity() {
     private val nav: NavigationViewModel by viewModels()
+    private lateinit var appViewModel: AppViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val settingsRepository = SettingsRepository(applicationContext.dataStore)
+        appViewModel = ViewModelProvider(
+            this,
+            AppViewModelFactory(settingsRepository)
+        )[AppViewModel::class.java]
+
         setContent {
-            MyApplicationTheme {
-                var isLoggedIn by remember { mutableStateOf(false) }
-                var selectedItemIndex by remember { mutableStateOf(1) }
+            val firstLaunch = appViewModel.isFirstLaunch
 
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    if (!isLoggedIn) {
-                        LoginScreen { name ->
-                            isLoggedIn = true
-                        }
-                    } else {
-                        val items = listOf(
-                            BottomNavItem("Create", Icons.Filled.AddCircle, Icons.Outlined.Add),
-                            BottomNavItem("Home", Icons.Filled.Home, Icons.Outlined.Home),
-                            BottomNavItem("Profile", Icons.Filled.Person, Icons.Outlined.Person)
-                        )
-
-                        Scaffold(
-                            bottomBar = {
-                                NavigationBar {
-                                    items.forEachIndexed { index, item ->
-                                        NavigationBarItem(
-                                            selected = selectedItemIndex == index,
-                                            onClick = { selectedItemIndex = index },
-                                            label = { Text(item.label) },
-                                            colors = NavigationBarItemDefaults.colors(
-                                                selectedIconColor = Color(0xFFba87ba),
-                                                indicatorColor = Color(0xFFe5d3e5),
-                                            ),
-                                            icon = {
-                                                Icon(
-                                                    imageVector = if (selectedItemIndex == index) item.selectedIcon else item.unselectedIcon,
-                                                    contentDescription = item.label
-                                                )
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-                        ) { innerPadding ->
-                            when (selectedItemIndex) {
-                                0 -> nav.navigateTo(Screen.CREATE_POST)
-                                1 -> nav.navigateTo(Screen.FEED)
-                                2 -> nav.navigateTo(Screen.PROFILE)
-                            }
-                            Greeting(nav, modifier = Modifier.padding(innerPadding))
-                        }
-                    }
+            LaunchedEffect(firstLaunch) {
+                if (firstLaunch == true) {
+                    appViewModel.setFirstLaunchDone()
+                    nav.navigateTo(Screen.FEED)
                 }
+            }
+
+            MyApplicationTheme {
+                NavBar(nav, modifier = Modifier)
             }
         }
     }
 }
-
 
 @Composable
 fun Greeting(nav: NavigationViewModel, modifier: Modifier = Modifier) {

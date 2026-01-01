@@ -1,4 +1,4 @@
-package com.example.myapplication.profileScreen
+package com.example.myapplication.post
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
