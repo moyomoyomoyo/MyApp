@@ -1,18 +1,12 @@
-package com.example.myapplication.post
+package com.example.myapplication.profileScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
@@ -28,50 +22,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.components.ViewModeToggle
-import com.example.myapplication.data.entity.PostEntity
 import com.example.myapplication.data.entity.UserEntity
+import com.example.myapplication.navigation.Header
 import com.example.myapplication.navigation.NavigationViewModel
 import com.example.myapplication.navigation.Screen
-import com.example.myapplication.profileScreen.ProfileImage
-import com.example.myapplication.profileScreen.ProfileStats
-import com.example.myapplication.profileScreen.ViewMode
 
-@Composable
-fun PostGrid(
-    user: UserEntity,
-    nav: NavigationViewModel,
-    posts: List<PostEntity?>,
-    viewMode: ViewMode,
-    onViewModeChange: (ViewMode) -> Unit,
-    onPostClick: (PostEntity) -> Unit
-) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(top = 0.dp, start = 4.dp, end = 4.dp, bottom = 4.dp)
-    ) {
-        // Profilo info (senza Header che ora è fisso) che occupa tutte le colonne
-        item(span = { GridItemSpan(3) }) {
-            ProfileInfoContent(
-                user = user,
-                nav = nav,
-                viewMode = viewMode,
-                onViewModeChange = onViewModeChange
-            )
-        }
 
-        // Post in formato griglia
-        items(posts.filterNotNull()) { post ->
-            PostGridItem(
-                post = post,
-                onClick = { onPostClick(post) }
-            )
-        }
-    }
+enum class ViewMode {
+    LIST, GRID
 }
 
 @Composable
-fun ProfileInfoContent(
+fun ProfileHeader(
     user: UserEntity,
     nav: NavigationViewModel,
     viewMode: ViewMode,
@@ -83,11 +45,11 @@ fun ProfileInfoContent(
             .background(Color(0xFFFFFFFF)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Header rimosso da qui, ora è fisso nel ProfileScreen
+        Header(nav, user)
 
-//        ProfileImage(user.profilePicture)
+        ProfileImage(user.profilePicture)
 
-//        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(15.dp))
 
         Text(
             "@${user.username}",
@@ -158,18 +120,3 @@ fun ProfileInfoContent(
         )
     }
 }
-
-
-//@Composable
-//fun PostGrid(posts: List<PostEntity?>, onPostClick: (PostEntity) -> Unit) {
-//    LazyVerticalGrid(
-//        columns = GridCells.Fixed(3),
-//        modifier = Modifier.fillMaxSize(),
-//        contentPadding = PaddingValues(2.dp)
-//    ) {
-//        items(posts) { post ->
-//            PostGridItem(post, onPostClick)
-//        }
-//    }
-//}
-

@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose.jvmstubs)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -60,9 +61,11 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // CardView
     implementation("androidx.cardview:cardview:1.0.0")
 
-//    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    // implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.compose.ui:ui-text-google-fonts:1.10.0") // Google Fonts
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0") // ViewModel
     implementation("androidx.datastore:datastore-preferences:1.2.0") // DataStore delle preferenze
@@ -85,4 +88,9 @@ dependencies {
     // Mapbox
     implementation("com.mapbox.maps:android-ndk27:11.17.1")
     implementation("com.mapbox.extension:maps-compose-ndk27:11.17.1")
+
+    // Material3 e icone
+    implementation("androidx.compose.material3:material3:1.2.1")
+    implementation("androidx.compose.material:material-icons-extended:1.6.1")
+
 }

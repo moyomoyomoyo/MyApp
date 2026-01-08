@@ -1,30 +1,30 @@
 package com.example.myapplication.data.viewmodel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.repository.SettingsRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AppViewModel(
     private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
-    var isFirstLaunch by mutableStateOf<Boolean?>(null)
-        private set
+    private val _isFirstLaunch = MutableStateFlow<Boolean?>(null)
+    val isFirstLaunch: StateFlow<Boolean?> = _isFirstLaunch.asStateFlow()
 
     init {
         viewModelScope.launch {
-            isFirstLaunch = settingsRepository.isFirstLaunch()
+            _isFirstLaunch.value = settingsRepository.isFirstLaunch()
         }
     }
 
     fun setFirstLaunchDone() {
         viewModelScope.launch {
             settingsRepository.setFirstLaunchDone()
-            isFirstLaunch = false
+            _isFirstLaunch.value = false
         }
     }
 }

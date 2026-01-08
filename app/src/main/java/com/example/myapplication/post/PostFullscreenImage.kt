@@ -1,5 +1,7 @@
 package com.example.myapplication.post
 
+import android.graphics.BitmapFactory
+import android.util.Base64
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -29,11 +32,15 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 
 @Composable
-fun PostFullscreenImage(imageRes: Int) {
+fun PostFullscreenImage(base64Image: String) {
     var showFullScreen by remember { mutableStateOf(false) }
 
+    // decodifica l'immagine da base64 a bitmap
+    val decodedBytes = Base64.decode(base64Image, Base64.DEFAULT)
+    val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+
     Image(
-        painter = painterResource(id = imageRes),
+        bitmap = bitmap.asImageBitmap(),
         contentDescription = "post image",
         contentScale = ContentScale.Crop,
         modifier = Modifier
@@ -56,7 +63,7 @@ fun PostFullscreenImage(imageRes: Int) {
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = painterResource(id = imageRes),
+                    bitmap = bitmap.asImageBitmap(),
                     contentDescription = null,
                     contentScale = ContentScale.Fit,
                     modifier = Modifier

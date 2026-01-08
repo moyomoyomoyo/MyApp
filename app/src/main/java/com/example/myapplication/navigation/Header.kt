@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.KeyboardArrowLeft
+import androidx.compose.material.icons.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -27,14 +28,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.data.entity.UserEntity
 
 @Composable
-fun Header(nav: NavigationViewModel) {
+fun Header(nav: NavigationViewModel, user: UserEntity? = null) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(3.dp)
-//            .background(Color(0xFFF00FFF))
             .height(35.dp)
     ) {
         Column(
@@ -49,12 +50,12 @@ fun Header(nav: NavigationViewModel) {
                     .padding(horizontal = 8.dp),
                 horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
 
-                when(nav.currentScreen){
+                when (nav.currentScreen) {
                     Screen.PROFILE -> {
                         IconButton(
-                            onClick = { nav.navigateTo(Screen.FEED)},
+                            onClick = { nav.navigateTo(Screen.FEED) },
 
                             ) {
                             Icon(
@@ -66,14 +67,14 @@ fun Header(nav: NavigationViewModel) {
                         }
 
                         Text(
-                            text = "moyo",
+                            text = user?.username ?: "Profile",
                             style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.Bold)
                         )
 
                         IconButton(
-                            onClick = { nav.navigateTo(Screen.PROFILE_SETTINGS)},
+                            onClick = { nav.navigateTo(Screen.PROFILE_SETTINGS) },
 
-                        ) {
+                            ) {
                             Icon(
                                 imageVector = Icons.Outlined.MoreVert,
                                 contentDescription = "Settings",
@@ -91,15 +92,31 @@ fun Header(nav: NavigationViewModel) {
                         textAlign = TextAlign.Center
                     )
 
-                    Screen.CREATE_POST -> Text(
-                        text = "Create",
-                        style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.Bold)
-                    )
+                    Screen.CREATE_POST -> {
+                        Box(modifier = Modifier.size(32.dp)) {}
+
+                        Text(
+                            text = "Create",
+                            style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                        )
+
+                        IconButton(
+                            onClick = { nav.navigateTo(Screen.FEED) },
+
+                            ) {
+                            Icon(
+                                imageVector = Icons.Outlined.KeyboardArrowRight,
+                                contentDescription = "Back",
+                                modifier = Modifier
+                                    .size(32.dp)
+                            )
+                        }
+                    }
 
                     Screen.PROFILE_SETTINGS -> {
                         IconButton(
-                            onClick = { nav.navigateTo(Screen.PROFILE)},
-                            ) {
+                            onClick = { nav.navigateTo(Screen.PROFILE) },
+                        ) {
                             Icon(
                                 imageVector = Icons.Outlined.KeyboardArrowLeft,
                                 contentDescription = "Back",
@@ -113,17 +130,32 @@ fun Header(nav: NavigationViewModel) {
                             style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.Bold)
                         )
 
-                        Box(modifier = Modifier.size(32.dp)){}
+                        Box(modifier = Modifier.size(32.dp)) {}
                     }
 
-//                    Screen.MAP_SCREEN -> Text(
-//                        text = "Map",
-//                        style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.Bold),
-//                        modifier = Modifier
-//                            .fillMaxWidth(),
-//                        textAlign = TextAlign.Center
-//                    )
+                    Screen.POST_DETAIL -> {
+                        IconButton(
+                            onClick = { nav.navigateTo(Screen.PROFILE) },
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.KeyboardArrowLeft,
+                                contentDescription = "Back",
+                                modifier = Modifier
+                                    .size(32.dp)
+                            )
+                        }
+
+                        if (user != null) {
+                            Text(
+                                text = user.username,
+                                style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                            )
+                        }
+
+                        Box(modifier = Modifier.size(32.dp)) {}
+                    }
                 }
+
 
             }
         }
